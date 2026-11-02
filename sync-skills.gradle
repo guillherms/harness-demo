@@ -1,0 +1,50 @@
+// Mantém .claude/skills (lido pelo Claude Code) igual a .agents/skills
+// (fonte da verdade, lido pelo Devin). Uso:
+//   gradlew syncSkills    -> copia .agents/skills para .claude/skills
+//   gradlew checkSkills   -> falha se as duas pastas divergirem (use no CI)
+// Aplicar no build:
+//   Groovy: apply from: 'gradle/sync-skills.gradle'
+//   Kotlin: apply(from = "gradle/sync-skills.gradle")
+
+def skillsFonte = file('.agents/skills')
+def skillsClaude = file('.claude/skills')
+
+tasks.register('syncSkills', Sync) {
+    group = 'agentes'
+    description = 'Copia .agents/skills para .claude/skills'
+    from skillsFonte
+    into skillsClaude
+}
+
+tasks.register('checkSkills') {
+    group = 'agentes'
+    description = 'Verifica se .claude/skills está igual a .agents/skills'
+    inputs.dir(skillsFonte)
+    doLast {
+        def listar = { File raiz ->
+            def mapa = [:]
+            if (raiz.exists()) {
+                raiz.eachFileRecurse(groovy.io.FileType.FILES) { f ->
+                    def caminho = raiz.toPath().relativize(f.toPath()).toString().replace('\\', '/')
+                    mapa[caminho] = f
+                }
+            }
+            mapa
+        }
+        def fonte = listar(skillsFonte)
+        def copia = listar(skillsClaude)
+        def problemas = []
+        (fonte.keySet() + copia.keySet()).each { caminho ->
+            if (!copia.containsKey(caminho)) {
+                problemas << "faltando em .claude/skills: ${caminho}"
+            } else if (!fonte.containsKey(caminho)) {
+                problemas << "sobrando em .claude/skills: ${caminho}"
+            } else if (!java.util.Arrays.equals(fonte[caminho].bytes, copia[caminho].bytes)) {
+                problemas << "diferente: ${caminho}"
+            }
+        }
+        if (problemas) {
+            throw new GradleException("Skills fora de sincronia. Rode 'gradlew syncSkills'.\n" + problemas.join('\n'))
+        }
+    }
+}
