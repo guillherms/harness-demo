@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Spec de endpoints (api-owner → codigo → review)",
+  "type": "object",
+  "required": ["historia", "endpoints", "pendencias"],
+  "additionalProperties": false,
+  "properties": {
+    "historia": { "type": "string", "minLength": 1 },
+    "pendencias": {
+      "description": "O que a história não diz. Precisa estar vazia para seguir ao código.",
+      "type": "array", "items": { "type": "string" }
+    },
+    "endpoints": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["operacao", "metodo", "path", "descricao", "request", "response", "erros"],
+        "additionalProperties": false,
+        "properties": {
+          "operacao": { "enum": ["criar", "alterar", "excluir"] },
+          "metodo": { "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"] },
+          "path": { "type": "string", "pattern": "^/" },
+          "descricao": { "type": "string", "minLength": 1 },
+          "request": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "path_params": { "type": "array", "items": { "$ref": "#/$defs/campo" } },
+              "query_params": { "type": "array", "items": { "$ref": "#/$defs/campo" } },
+              "body": { "type": ["array", "null"], "items": { "$ref": "#/$defs/campo" } }
+            }
+          },
+          "response": {
+            "type": "object",
+            "required": ["status"],
+            "additionalProperties": false,
+            "properties": {
+              "status": { "type": "integer", "minimum": 200, "maximum": 299 },
+              "body": { "type": ["array", "null"], "items": { "$ref": "#/$defs/campo" } }
+            }
+          },
+          "erros": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["status", "quando"],
+              "additionalProperties": false,
+              "properties": {
+                "status": { "type": "integer", "minimum": 400, "maximum": 599 },
+                "quando": { "type": "string", "minLength": 1 }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "campo": {
+      "type": "object",
+      "required": ["nome", "tipo", "obrigatorio"],
+      "additionalProperties": false,
+      "properties": {
+        "nome": { "type": "string", "minLength": 1 },
+        "tipo": { "enum": ["string", "integer", "number", "boolean", "date", "datetime", "object", "array"] },
+        "obrigatorio": { "type": "boolean" },
+        "formato": { "type": "string" },
+        "descricao": { "type": "string" },
+        "campos": { "type": "array", "items": { "$ref": "#/$defs/campo" } }
+      }
+    }
+  }
+}

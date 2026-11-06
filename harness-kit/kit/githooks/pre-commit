@@ -1,0 +1,3 @@
+#!/bin/sh
+# Instalado pelo harness-kit. Edite no kit, não aqui.
+exec python "$(dirname "$0")/pre_commit.py"

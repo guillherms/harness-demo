@@ -1,0 +1,17 @@
+# Commitado: conhecimento do time sobre este repo.
+# Caminhos locais NÃO ficam aqui, ficam em ~/.harness/workspace.yaml
+repo: aplicacao-java
+tipo: aplicacao
+
+par:
+  repo: gateway-padrao
+  papel: contrato-openapi
+  regra: toda criação, alteração ou exclusão de rota reflete no contrato
+
+fase_seguinte:
+  descricao: história do BFF, que replica as rotas da aplicação
+  repos: [web-bff, gateway-bff]
+
+branch:
+  padrao: "feature/{historia}"
+  base: develop

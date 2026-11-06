@@ -1,0 +1,8 @@
+# Commitado. Ninguém abre sessão neste repo: o agente entra aqui para alterar o contrato.
+repo: gateway-padrao      # ou gateway-bff
+tipo: gateway
+contrato: <caminho do arquivo OpenAPI no repo>
+
+branch:
+  padrao: "feature/{historia}"
+  base: develop

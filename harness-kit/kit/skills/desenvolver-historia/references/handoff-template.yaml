@@ -1,0 +1,9 @@
+# Gerado pelo orquestrador ao fim da fase 1, a partir do OpenAPI commitado.
+# Os endpoints usam o MESMO formato do spec.json (.claude/contratos/spec.schema.json),
+# assim o api-owner da fase 2 lê o handoff sem traduzir nada.
+historia_origem: <id>
+historia_destino: <id ou vazio>
+endpoints: []        # mesmo formato de spec.json → endpoints
+decisoes: []         # o que foi decidido com o usuário no caminho
+branches: {}         # repo: branch
+pendencias: []

@@ -1,0 +1,9 @@
+{
+  "sensores": [
+    {
+      "nome": "build-e-testes",
+      "quando": ["*.java", "pom.xml", "*.properties", "*.yml"],
+      "comando": "mvn -q verify"
+    }
+  ]
+}

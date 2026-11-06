@@ -1,0 +1,9 @@
+{
+  "sensores": [
+    {
+      "nome": "openapi-valido",
+      "quando": ["*.yaml", "*.yml", "*.json"],
+      "comando": "python -m openapi_spec_validator <caminho do contrato>"
+    }
+  ]
+}
