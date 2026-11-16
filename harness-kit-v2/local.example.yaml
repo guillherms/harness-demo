@@ -1,0 +1,12 @@
+# Copie para local.yaml (fica fora do git) e ajuste para onde VOCÊ clonou cada repo.
+# Os nomes (apelidos) à esquerda são os usados nos comandos e nas constitutions.
+repos:
+  listeners: C:/dev/listeners
+  aplicacao: C:/dev/aplicacao
+  gateway: C:/dev/gateway
+  bff: C:/dev/bff
+  gateway_bff: C:/dev/gateway-bff
+
+# Repos de referência (só leitura), ex.: o projeto que já tem o banco mapeado
+referencias:
+  projeto_banco: C:/dev/projeto-com-banco

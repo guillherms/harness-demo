@@ -1,0 +1,33 @@
+# Infra local da história <id>. Lido por scripts/infra_localstack.py e scripts/testar_cenarios.py.
+# Só LocalStack. Nada aqui vai para a AWS real. Remova as seções que a história não usa.
+
+# --- Mensageria (SNS -> SQS) ---
+topico: sns-exemplo-eventos
+fila: sqs-exemplo-evento-x
+dlq: sqs-exemplo-evento-x-dlq          # opcional
+max_receive_count: 3
+raw_message_delivery: false
+filtro:                                # filter policy (message attributes)
+  tipoEvento: ["EVENTO_X"]
+
+# --- S3 ---
+s3:
+  - bucket: s3-exemplo-arquivos
+    arquivos:                          # sobe arquivos de exemplo (caminho relativo a este infra.yaml)
+      - chave: entrada/exemplo.csv
+        local: amostras/exemplo.csv
+
+# --- Fora do alcance do script (o orquestrador para e pergunta) ---
+nao_suportado: []                      # ex.: ["banco Postgres sem mapeamento no repo"]
+
+# --- Cenários de teste local ---
+# esperado: consumida | filtrada | dlq
+cenarios:
+  - nome: caminho feliz
+    atributos: { tipoEvento: EVENTO_X }
+    payload: { bucket: s3-exemplo-arquivos, chave: entrada/exemplo.csv }
+    esperado: consumida
+  - nome: outro evento (filtro barra)
+    atributos: { tipoEvento: OUTRO }
+    payload: { id: "456" }
+    esperado: filtrada
