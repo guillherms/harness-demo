@@ -18,7 +18,7 @@ Dois pares de repos. Cada par anda junto numa mesma história:
 harness-kit (este repo)      → FONTE: skills, agentes, hooks, templates, docs
         │ sync.py (copia)
         ▼
-aplicacao-java / web-bff     → INSTALADO: .claude/ + AGENTS.md + .harness/project.yaml
+aplicacao-java / web-bff     → INSTALADO: .claude/ + .agents/skills + AGENTS.md + docs/patterns + .harness/project.yaml
 gateway-padrao / gateway-bff → INSTALADO: git hook + AGENTS.md + .harness/project.yaml
         │
 sua máquina (fora do Git)    → LOCAL: ~/.harness/workspace.yaml, runs/active.json, handoffs
@@ -68,8 +68,13 @@ flowchart TD
     N --> F2[Fase 2: mesmo fluxo no par BFF<br/>entrada = história 2 + handoff]
 ```
 
-Pontos de decisão humana (únicos): dados faltantes antes de delegar, confirmação
-da spec, aprovação antes do commit e id da próxima história.
+Antes do fluxo, o orquestrador **classifica** a história (endpoint × outro,
+conferindo com `listar_endpoints`) e confirma em uma linha. História sem
+endpoint segue `references/fluxo-generico.md` (sem spec JSON nem contrato).
+
+Pontos de decisão humana (únicos): confirmação da classificação, dados
+faltantes antes de delegar (todos de uma vez), confirmação da spec, aprovação
+antes do commit (com IMPORTANTES/SUGESTÕES do review) e id da próxima história.
 
 ### Quem faz o quê
 
@@ -79,7 +84,7 @@ da spec, aprovação antes do commit e id da próxima história.
 | Orquestrador | coordena, branch, commit, handoff | não edita código nem contrato |
 | api-owner | spec e contrato OpenAPI | não toca em código nem em git |
 | codigo | implementação + testes | não toca em git |
-| review | confere spec × contrato × código × padrões | não edita nada |
+| review | segue a skill `code-review`: spec × contrato × código × padrões, só no diff | não edita nada |
 
 Os subagents recebem um **briefing completo** (não veem a conversa) e sempre
 leem o `AGENTS.md` do repo em que vão atuar.
@@ -118,6 +123,8 @@ desenvolver-historia/
 └── references/           ← carregado só quando a fase começa (progressive disclosure)
     ├── fase-aplicacao.md
     ├── fase-bff.md
+    ├── fluxo-generico.md
+    ├── aprendizado.md
     └── handoff-template.yaml
 ```
 
@@ -166,6 +173,8 @@ história ──► api-owner ──► spec.json ──► codigo ──► rev
 ```
 
 - Formato: `.claude/contratos/spec.schema.json`.
+- Como montar: `.claude/contratos/checklist-endpoint.md` (✅ com trecho citado;
+  🟡 inferido e ❌ faltando viram `pendencias`).
 - Validador: `.claude/contratos/validar_spec.py` (hook e linha de comando).
 - Depois da spec, nenhum agente relê a história: a spec é a fonte da verdade.
 
@@ -196,7 +205,7 @@ Roteiro de evals em `docs/evals.md`; resultados do case em `docs/case/resultados
 ## 12. Ciclo de aprendizado
 
 ```text
-review (apontamentos com categoria) + sensores (qual falhou)
+review (apontamentos com categoria e severidade) + sensores (qual falhou)
         └──► log de todas as execuções ──► aprendizado.py analisar
                 ──► orquestrador sugere destino e texto ──► você aprova
                 ──► regra aplicada fora da branch ──► aprendizado.py aplicar

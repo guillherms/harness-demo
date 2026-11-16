@@ -1,9 +1,11 @@
 # Próximos passos
 
 ## Validar no ambiente de trabalho (Windows)
+Roteiro passo a passo em `docs/testes.md` (nível 2 cobre os itens abaixo no sandbox).
 - [ ] O `command` dos hooks funciona com `python` ou precisa de `py`?
 - [ ] `$CLAUDE_PROJECT_DIR` expande no shell que o Claude Code usa?
-- [ ] O git hook (`pre-commit` em sh chamando Python) roda pelo Git for Windows?
+- [x] O git hook (`pre-commit` em sh chamando Python) roda pelo Git for Windows?
+      Coberto por `tests/test_branch.py` (Git 2.34, Python 3.12).
 - [ ] O Claude Code edita o gateway estando fora da pasta da sessão? Se não,
       adicionar o caminho em `additionalDirectories` no `.claude/settings.local.json`.
 
@@ -52,21 +54,40 @@
 - [ ] Depois de 3 ou 4 histórias, rodar `aprendizado.py analisar` e aplicar a
       primeira regra. Registrar no case.
 
+## Incorporado da v0 (0.8.0)
+- [ ] Incorporar o checklist de code review atual do time em
+      `kit/skills/code-review/SKILL.md` (`<regras de code review do time>`).
+- [ ] Avaliar itens extras em `kit/contratos/checklist-endpoint.md`:
+      autenticação/escopo, idempotência em POST, auditoria/log.
+- [ ] Testar o fluxo genérico (`fluxo-generico.md`) com uma história sem endpoint.
+- [ ] Conferir se o api-owner marca 🟡/❌ em `pendencias` com os prefixos
+      `inferido:` e `faltando:`.
+- [ ] **Débito:** padronizar a escrita de histórias do time (modelo leve com
+      Endpoint, Regras de negócio, Critérios de aceite). Com texto livre, a
+      qualidade da spec depende de como a história é escrita.
+- [ ] Testar com histórias de outras pessoas, não só as suas: a diferença de
+      resultado vira argumento para padronizar.
+
 ## Devin Desktop
-- [ ] Onde o Devin lê skills/regras/workflows no nível do projeto? Adicionar em
-      `DESTINOS_AGENTE` no `sync.py`.
+- [ ] Confirmar que o Devin lê `.agents/skills` (Customize > Skills) e acessa o
+      MCP de histórias. Regras/workflows em outro lugar? Ajustar `DESTINOS_*` no `sync.py`.
+- [ ] MCP do projeto no Devin fica em `.devin/mcp_config.json`?
+- [ ] Regras com escopo por arquivo em `.devin/rules/` (equivalente a AGENTS.md por pasta).
 - [ ] Ele lê AGENTS.md?
-- [ ] Tem subagents? Se não, as fases rodam em sequência num agente só.
+- [ ] Tem subagents (aba Subagents em Customize)? Se não, as fases rodam em
+      sequência num agente só e o review segue a skill `code-review` direto.
 - [ ] Tem permissões configuráveis por projeto? Replicar o `deny` do kit.
 - [ ] Tem hooks? Se não, a verificação de branch fica na skill e no git hook, e
       os sensores viram um passo explícito da skill antes do review.
 
 ## Preencher
 - [ ] `AGENTS.md` da aplicação e dos gateways (placeholders).
-- [ ] `docs/patterns/endpoint.md` e `docs/patterns/testes.md` na aplicação
-      (clean arch, endpoints legados a evitar, TAAC).
-- [ ] Regras de code review do time em `kit/agents/review.md`.
-- [ ] Nome do MCP da ferramenta de histórias em `fase-aplicacao.md` e `fase-bff.md`.
+- [ ] `docs/patterns/endpoint.md`, `paginacao.md` e `testes.md` na aplicação
+      (criados pelo sync a partir de `templates/docs/`): clean arch, endpoints
+      de referência, padrão de paginação, modelo de TAAC.
+- [ ] Regras de code review do time em `kit/skills/code-review/SKILL.md`.
+- [ ] Nome do MCP da ferramenta de histórias em `fase-aplicacao.md` e `fase-bff.md`
+      (referencie o servidor, não o nome da ferramenta: muda entre Claude e Devin).
 - [ ] `templates/project-*.yaml` com os nomes reais dos repos.
 
 ## Atenção: a aplicação já tem AGENTS.md e skills de outra pessoa

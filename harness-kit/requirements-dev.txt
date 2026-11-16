@@ -1,0 +1,7 @@
+# Para rodar os testes do kit (pytest) e os sensores/MCP no sandbox.
+pytest
+jsonschema
+pyyaml
+# Opcionais: sensor de contrato do gateway e servidor MCP local.
+openapi-spec-validator
+mcp

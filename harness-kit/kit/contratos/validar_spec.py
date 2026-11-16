@@ -11,12 +11,14 @@ import re
 import sys
 from pathlib import Path
 
-from jsonschema import Draft202012Validator
-
 SCHEMA = json.loads((Path(__file__).parent / "spec.schema.json").read_text(encoding="utf-8"))
 
 
 def validar(spec: dict, pronta: bool) -> list[str]:
+    # Import aqui, não no topo: como hook este script roda em TODO Write/Edit e
+    # sai cedo para arquivos que não são spec; sem a lib, isso não pode quebrar.
+    from jsonschema import Draft202012Validator
+
     erros = [f"{'/'.join(map(str, e.path)) or '(raiz)'}: {e.message}"
              for e in Draft202012Validator(SCHEMA).iter_errors(spec)]
     if erros:

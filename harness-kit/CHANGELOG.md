@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.8.1
+- Testes automáticos (`tests/`, pytest) para todos os scripts do kit, isolados
+  do `~/.harness` real; `requirements-dev.txt`.
+- Sandbox local (`tests/sandbox/criar_sandbox.py`): aplicação Java sem Maven,
+  gateway com contrato, remotes locais e histórias SBX-1..3 para o Claude Code.
+- Roteiro de testes em `docs/testes.md`.
+- `desenvolver-historia` aceita o texto da história colado (sem MCP de histórias).
+- `validar_spec.py` só importa `jsonschema` quando de fato valida (como hook
+  roda em todo Write/Edit e não pode quebrar sem a lib).
+
+## 0.8.0
+- Incorporado o `harness-agentes` (v0), que deixa de existir como pasta separada.
+- Nova skill `code-review`: escopo = diff, severidade BLOQUEANTE/IMPORTANTE/SUGESTÃO
+  com regra citada, descartados não voltam. `review` segue a skill. Categoria
+  continua o 1º token (compatível com `aprendizado.py`); nova categoria `seguranca`.
+- Só BLOQUEANTES voltam ao `codigo`; IMPORTANTES/SUGESTÕES vão para a aprovação.
+- `kit/contratos/checklist-endpoint.md`: api-owner marca ✅/🟡/❌; 🟡 e ❌ viram
+  `pendencias` (`inferido:` / `faltando:`), perguntadas em lote.
+- Orquestrador classifica a história (endpoint × outro) e confirma antes de agir;
+  `fluxo-generico.md` para histórias sem endpoint.
+- `codigo`: teste por regra e por erro da spec, padrão de paginação e TAAC do repo.
+- Templates: AGENTS.md mais completo e `docs/` (arquitetura, endpoint, paginação, testes).
+- `sync.py` copia as skills também para `.agents/skills` (Devin) e cria os `docs/`.
+- Docs: `fundamentos.md`, decisão 015, decisão 008 atualizada, histórico da v0.
+
 ## 0.7.0
 - Ciclo de aprendizado: `aprendizado.py` (analisar recorrência, registrar regra
   aplicada), categorias fixas nos apontamentos do review, fechamento por fase.

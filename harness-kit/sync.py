@@ -18,6 +18,12 @@ VERSION = (Path(__file__).parent / "VERSION").read_text().strip()
 
 # Pastas que cada ferramenta lê. Confirme os caminhos do Devin e adicione aqui.
 DESTINOS_AGENTE = [".claude"]
+# Só skills (padrão aberto Agent Skills): o Devin lê daqui, o Claude Code não.
+DESTINOS_SKILLS = [".agents/skills"]
+
+# Docs de padrão do repo: criados uma vez (perfis com agente), depois são do repo.
+DOCS_REPO = ["docs/arquitetura.md", "docs/patterns/endpoint.md",
+             "docs/patterns/paginacao.md", "docs/patterns/testes.md"]
 
 PERFIS = {
     "aplicacao": {"agente": True, "agents_md": "AGENTS.md", "project": "project-aplicacao.yaml", "sensores": "sensores-aplicacao.json"},
@@ -70,6 +76,15 @@ def main():
             (base / "HARNESS-KIT.md").write_text(
                 f"Arquivos de skills/, agents/, hooks/, sensores/, contratos/, mcp/, medicao/ e aprendizado/ vêm do harness-kit {VERSION}.\n"
                 "Não edite aqui: edite no kit e rode o sync de novo.\n", encoding="utf-8")
+        for pasta in DESTINOS_SKILLS:
+            destino = repo / pasta
+            copiar_dir(KIT / "skills", destino)
+            (destino.parent / "HARNESS-KIT.md").write_text(
+                f"{pasta}/ é uma cópia das skills do harness-kit {VERSION} para o Devin "
+                "(o Claude Code lê .claude/skills).\n"
+                "Não edite aqui: edite no kit e rode o sync de novo.\n", encoding="utf-8")
+        for doc in DOCS_REPO:
+            criar_se_faltar(TEMPLATES / doc, repo / doc)
         criar_se_faltar_texto(repo / "CLAUDE.md", "@AGENTS.md\n")
         criar_se_faltar(KIT / "mcp" / "mcp.json", repo / ".mcp.json")
         criar_se_faltar(TEMPLATES / "mcp-config.json", repo / ".harness" / "mcp.json")

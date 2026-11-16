@@ -11,7 +11,7 @@ Todo o desenho já foi discutido e está documentado neste repo (harness-kit).
 
 Antes de responder, leia nesta ordem:
 1. README.md
-2. docs/arquitetura.md
+2. docs/fundamentos.md e docs/arquitetura.md
 3. docs/decisoes/ (todos)
 4. docs/historico/01-conversa-arquitetura.md
 5. docs/proximos-passos.md
@@ -41,6 +41,7 @@ Decisões que NÃO quero rediscutir sem um motivo forte:
 - O harness-kit é a fonte e a documentação; ele não executa nada.
 - Guias antes, sensores depois: o que máquina consegue checar, máquina checa.
 - A spec.json é a fonte da verdade depois de aprovada.
+- Review: APROVADO = zero BLOQUEANTES; todo BLOQUEANTE/IMPORTANTE cita a regra.
 - O MCP é experimental: fica ou sai conforme as evals.
 
 Objetivo desta sessão:

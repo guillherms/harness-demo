@@ -1,6 +1,6 @@
 ---
 name: desenvolver-historia
-description: Desenvolve uma história de ponta a ponta nos repos do par (aplicação + gateway) e, em seguida, encadeia a história do BFF. Use quando o usuário disser "desenvolver história <id>" ou pedir para implementar uma história pelo id.
+description: Desenvolve uma história de ponta a ponta nos repos do par (aplicação + gateway) e, em seguida, encadeia a história do BFF. Use quando o usuário disser "desenvolver história <id>", pedir para implementar uma história pelo id ou colar o texto de uma história pedindo para implementá-la.
 ---
 
 # Desenvolver história
@@ -14,6 +14,19 @@ subagents, cuida de branch, commit e handoff, e fala com o usuário.
    - Se faltar algum, tente a pasta irmã com o nome do repo.
    - Se não achar, pergunte ao usuário e salve em `~/.harness/workspace.yaml`.
 
+## Classificar e confirmar
+Depois de buscar a história, classifique antes de qualquer outra coisa:
+
+| Tipo | Quando | Fluxo |
+|---|---|---|
+| Endpoint | cria, altera ou exclui rota | Fases 1 e 2 abaixo |
+| Outro | nenhuma rota muda | `references/fluxo-generico.md` |
+
+Confira no código, não só no texto: use `listar_endpoints` (com `filtro`) para
+saber se a rota existe. Se a história for mista ou ambígua, pergunte.
+Mostre em uma linha o que entendeu e espere o OK, por exemplo:
+> Entendi como **criação** de `GET /contratos/{id}/parcelas`. Sigo?
+
 ## Fases (sempre nesta ordem)
 - **Fase 1, par da aplicação:** leia e siga `references/fase-aplicacao.md`.
 - **Fase 2, par BFF:** só depois do handoff da fase 1. Leia e siga `references/fase-bff.md`.
@@ -21,8 +34,11 @@ subagents, cuida de branch, commit e handoff, e fala com o usuário.
 ## Regras
 - Uma etapa só começa quando a anterior terminou com sucesso.
 - Se qualquer verificação falhar, **pare e reporte**. Não improvise correção de git.
-- Fale com o usuário apenas em três momentos: dados faltantes (antes de delegar),
-  aprovação antes do commit, e o id da próxima história.
+- Fale com o usuário apenas nestes momentos: confirmação da classificação,
+  dados faltantes (antes de delegar, **todos de uma vez**), aprovação antes do
+  commit e o id da próxima história.
+- A história bruta só serve para montar a spec. Dali em diante, todos trabalham
+  com a spec.
 - Subagents nunca executam git. Branch e commit são seus, via `preparar-branch`.
 - Antes de delegar para qualquer subagent que edita, rode a verificação de branch.
 - Ao terminar uma fase com sucesso, faça o fechamento de aprendizado

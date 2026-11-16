@@ -12,7 +12,7 @@ resolve**.
 | Algo que máquina consegue checar | Sensor: regra ArchUnit, lint, teste | "domain importando Spring" → regra ArchUnit |
 | Convenção do repo que o agente esquece | `AGENTS.md` ou `docs/patterns/` do repo | "DTO de resposta termina em Response" |
 | Erro de processo do agente | Skill ou agente, **no harness-kit** | "codigo não rodou listar_endpoints antes" |
-| Critério de julgamento | Checklist do `review.md`, **no harness-kit** | "teste precisa cobrir cada erro da spec" |
+| Critério de julgamento | Skill `code-review`, **no harness-kit** | "teste precisa cobrir cada erro da spec" |
 | Falha de sensor recorrente | O que faltou para o agente acertar antes | sensor de testes falha sempre → padrão de teste no AGENTS.md |
 
 Para cada sugestão, mostre: o padrão observado (com os exemplos), o destino e o

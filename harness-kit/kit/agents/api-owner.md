@@ -14,9 +14,17 @@ Para saber se um endpoint já existe na aplicação (criar × alterar), use
 ## Modo `spec`
 Entrada: texto da história. Saída: o arquivo `~/.harness/runs/<id>/spec.json`,
 no formato de `.claude/contratos/spec.schema.json` (leia o schema antes).
+- Leia `.claude/contratos/checklist-endpoint.md` e avalie cada item:
+  ✅ só com trecho da história que você consegue citar; 🟡 inferido vira
+  `inferido: <item> = <valor> (<origem>)` em `pendencias`; ❌ vira
+  `faltando: <item>` em `pendencias`.
 - Não invente dados: o que não estiver na história vai para `pendencias`.
+- Se a spec tiver GET de lista, siga o padrão de paginação que o AGENTS.md da
+  aplicação aponta.
 - Um hook valida o arquivo quando você salva. Se ele reclamar, corrija e salve
   de novo até passar.
+- Ao receber respostas do orquestrador, atualize a spec e remova as pendências
+  resolvidas.
 - Devolva ao orquestrador só: caminho do arquivo + lista de pendências.
 
 ## Modo `spec-bff`

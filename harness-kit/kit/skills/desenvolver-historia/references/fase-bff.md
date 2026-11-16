@@ -3,7 +3,7 @@
 O BFF não tem regra de negócio: ele expõe as rotas da aplicação seguindo os
 padrões do BFF. A entrada é a história 2 **mais** o handoff da fase 1.
 
-1. **Buscar a história 2** pelo MCP e ler `~/.harness/runs/<id-fase-1>/handoff.yaml`.
+1. **Buscar a história 2** pelo MCP (ou use o texto colado pelo usuário) e ler `~/.harness/runs/<id-fase-1>/handoff.yaml`.
 
 2. **Preparar branch** com o id da história 2 nos repos `web-bff` e `gateway-bff`.
 
